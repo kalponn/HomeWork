@@ -1,0 +1,85 @@
+Sub alphabetical_testing()
+
+' housekeeping declare the variables
+Dim i As Long
+Dim lastrow As Long
+Dim laststock As String
+Dim currentstock As String
+Dim totalstockvolume As Double
+
+Dim j As Integer
+Dim current As Worksheet
+Dim currentstockopen As Double
+Dim currentstockclose As Double
+
+
+
+
+For Each current In Worksheets
+
+' counts the number of rows
+    lastrow = current.Cells(Rows.Count, 1).End(xlUp).Row + 1
+    
+'set the variables
+
+    laststock = current.Cells(2, 1).Value
+    currentstockopen = current.Cells(2, 3).Value
+    totalstockvolume = 0
+    current.Cells(1, 10) = "Ticker Sym"
+    current.Cells(1, 11) = "Total Stock Volume"
+    current.Cells(1, 12) = "Yearly Change"
+    current.Cells(1, 13) = "Percent Change"
+    j = 2
+    
+' loop thru the rows and calculate the total stock volume for each ticker
+
+    For i = 2 To lastrow
+       
+       currentstock = current.Cells(i, 1).Value
+       
+       
+       If currentstock = laststock Then
+            totalstockvolume = totalstockvolume + current.Cells(i, 7)
+       Else
+         currentstockclose = current.Cells(i - 1, 6)
+         changeinstock = currentstockclose - currentstockopen
+         
+         j = j + 1
+        
+         'display the stocker ticker , total stockvolume, change in stock, percent change
+         
+            current.Cells(j, 10) = laststock
+            current.Cells(j, 11) = totalstockvolume
+            current.Cells(j, 12) = changeinstock
+            
+            If changeinstock < 0 Then
+               current.Cells(j, 12).Interior.Color = vbRed
+            Else
+               current.Cells(j, 12).Interior.Color = vbGreen
+            End If
+            
+            
+            ' check for division by 0
+            
+            If currentstockopen = 0 Then
+                current.Cells(j, 13) = 0
+            
+            Else
+                current.Cells(j, 13) = changeinstock / currentstockopen
+            End If
+            
+         current.Cells(j, 13).Style = "Percent"
+         current.Cells(j, 13).NumberFormat = "0.00%"
+         laststock = currentstock
+         totalstockvolume = current.Cells(i, 7)
+         currentstockopen = current.Cells(i, 3).Value
+       
+       End If
+  
+    Next i
+
+
+Next
+
+
+End Sub

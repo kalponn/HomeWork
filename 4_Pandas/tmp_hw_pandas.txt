@@ -1,0 +1,54 @@
+
+
+male_avgpurchase = round(gender_totalpurchase["Male"] / male_count,2)
+
+female_avgpurchase = round(gender_totalpurchase["Female"] / female_count,2)
+
+other_avgpurchase = round(gender_totalpurchase["Other / Non-Disclosed"]/ NonDisc_count ,2)
+
+genderpurchase_summary_table = pd.DataFrame([{"Gender": "Male","Purchase Count": gendertotals["Male"],
+                              "Average Purchase Price": mean_purchase["Male"],
+                                           "Total Purchase Value": gender_totalpurchase["Male"],
+                                          "Avg Total Purchase per Person": male_avgpurchase},
+                                             {"Gender": "Female","Purchase Count": gendertotals["Female"],
+                              "Average Purchase Price": mean_purchase["Female"],
+                                           "Total Purchase Value": gender_totalpurchase["Female"],
+                                          "Avg Total Purchase per Person": female_avgpurchase},                                           
+                                          {"Gender": "Other / Non-Disclosed","Purchase Count": gendertotals["Other / Non-Disclosed"],
+                              "Average Purchase Price": mean_purchase["Other / Non-Disclosed"],
+                                           "Total Purchase Value": gender_totalpurchase["Other / Non-Disclosed"],
+                                          "Avg Total Purchase per Person": other_avgpurchase}
+                                         ])
+
+genderpurchase_summary_table = genderpurchase_summary_table.set_index("Gender")
+
+
+
+
+genderpurchase_summary_table["Average Purchase Price"] = genderpurchase_summary_table["Average Purchase Price"].astype(float).map(
+    "${:,.2f}".format)
+genderpurchase_summary_table["Total Purchase Value"] = genderpurchase_summary_table["Total Purchase Value"].astype(float).map(
+    "${:,.2f}".format)
+genderpurchase_summary_table["Avg Total Purchase per Person"] = genderpurchase_summary_table["Avg Total Purchase per Person"].astype(float).map(
+    "${:,.2f}".format)
+	
+	
+	
+	----
+	male_count = gendergroup["Male"]
+male_perc = round((male_count /  TotalPlayers ) * 100,2)
+
+female_count = gendergroup["Female"]
+female_perc = round((female_count /  TotalPlayers ) * 100,2)
+
+NonDisc_count = gendergroup["Other / Non-Disclosed"]
+NonDisc_perc = round((NonDisc_count /  TotalPlayers ) * 100,2)
+	
+	gendertotal_summary_table = pd.DataFrame([{"Gender": "Male","Total Count": male_count,
+                              "percentage": male_perc},{"Gender": "Female","Total Count": female_count,
+                              "percentage": female_perc},{"Gender": "Other / Non-Disclosed","Total Count": NonDisc_count,
+                              "percentage": NonDisc_perc}])
+
+#gendertotal_summary_table = pd.DataFrame({"Gender": ["Male","Female","Other / Non-Disclosed"],"Total Count": [male_count,female_count,NonDisc_count],"precentage": [male_perc,female_perc,NonDisc_perc]})
+
+gendertotal_summary_table = gendertotal_summary_table.set_index('Gender')
