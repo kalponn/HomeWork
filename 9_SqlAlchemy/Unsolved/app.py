@@ -49,8 +49,8 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
 		f"/api/v1.0/tobs<br/>"
-		f"/api/v1.0/<start><br/>"
-		f"/api/v1.0/<start>/<end>"
+		f"/api/v1.0/startdate/<start><br/>"
+		f"/api/v1.0/startenddates/<start>/<end>"
 	)
 
 
@@ -111,7 +111,7 @@ def tobs():
     
     
 	
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/startdate/<start>")
 def trip1(start):
 
  # go back one year from start date and go to end of data for Min/Avg/Max temp   
@@ -119,11 +119,19 @@ def trip1(start):
     start_date= datetime.strptime(start, '%Y-%m-%d')
     sdate = start_date + relativedelta(months=-12)
 
-    trip_data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).filter(Measurements.date >= sdate).all()
-    trip = list(np.ravel(trip_data))
-    return jsonify(trip)
+    trip_data = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= sdate).all()
+    #trip = list(np.ravel(trip_data))
 
-@app.route("/api/v1.0/<start>/<end>")
+    s_tobs =[]
+    for result in trip_data:
+        stobs_dict ={}
+        stobs_dict["Min Temp"] = result[0]
+        stobs_dict["Average Temp"] = round(result[1])
+        stobs_dict["Max Temp"] = result[2]
+        s_tobs.append(stobs_dict)
+    return jsonify(s_tobs)
+
+@app.route("/api/v1.0/startenddates/<start>/<end>")
 def trip2(start,end):
 
   # go back one year from start/end date and get Min/Avg/Max temp 
@@ -134,8 +142,19 @@ def trip2(start,end):
     edate = end_date + relativedelta(months=-12)
 
        
-    trip_data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).filter(Measurements.date >= sdate).filter(Measurements.date <= edate).all()
-    trip = list(np.ravel(trip_data))
+    SE_trip_data = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).filter(Measurement.date >= sdate).filter(Measurement.date <= edate).all()
+    #trip = list(np.ravel(trip_data))
+    
+    se_tobs =[]
+    for result in SE_trip_data:
+        setobs_dict ={}
+        setobs_dict["Min Temp"] = result[0]
+        setobs_dict["Average Temp"] = round(result[1])
+        setobs_dict["Max Temp"] = result[2]
+        se_tobs.append(setobs_dict)
+    return jsonify(se_tobs)
+    
+    
     return jsonify(trip)
 
 
