@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, inspect
+from sqlalchemy.pool import SingletonThreadPool
 
 from flask import Flask, jsonify
 
@@ -17,7 +18,7 @@ from dateutil.relativedelta import relativedelta
 # Database Setup
 #################################################
 
-engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///Resources/hawaii.sqlite",poolclass=SingletonThreadPool)
 
 # reflect an existing database into a new model
 Base = automap_base()

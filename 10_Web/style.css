@@ -1,0 +1,96 @@
+body {
+    background-color: whitesmoke;
+}
+
+h1 {
+     color: rgba(118,215,196, 0.897);
+     background-color: white;
+     font-family: times new roman;
+     font-weight: bold;
+}
+
+h2 {
+    color: rgba(118,215,196, 0.897);
+    background-color: white;
+    font-family: times new roman;
+    font-weight: bold;
+}
+
+h3 {
+    color: rgba(118,215,196, 0.897);
+    background-color: white;
+    font-family: times new roman;
+    font-weight: bold;
+}
+
+
+.box{
+    padding: 10px;
+    background: white;
+    margin-top: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 25px;
+    align-content: center;
+}
+
+
+img {
+    padding-top: 3px;
+    padding-right: 20px;
+    padding-bottom: 50px;
+    padding-left: 25px;
+
+}
+
+hr { 
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
+  color: white
+}
+
+p {
+   font-family: sans-serif;
+   font-size: 20
+}
+
+.container {
+  background-color: whitesmoke;
+}
+
+
+
+.navbar {
+         padding-left: 50px;
+}
+
+.navbar-brand {
+               background-color: rgba(118,215,196, 0.897);
+               color: floralwhite;
+               font-family: times new roman;
+               font-weight: bold;
+               
+}
+
+.navbar-default{
+                background-color: white;
+}
+
+/* Here we define a navbar style that will ONLY be applied at screen sizes below 480 pixels */
+@media (max-width: 480px) {
+  .navbar {
+    background-color: white;
+}
+
+  .navbar-brand {
+                 background-color: whitesmoke;
+                 font-family: times new roman;
+                 font-weight: bold;
+                 color: rgb(12, 173, 167);
+  }
+}
